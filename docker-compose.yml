@@ -27,15 +27,11 @@ services:
     image: bonekify-rest-app-image:latest
     restart: always
     build: .././bonekify-rest-service
-    environment:
-      DATABASE_URL: postgres://root:root@postgres:5432/rest_database
-      NODE_ENV: development
-      PORT: 3000
+    command: npm start
     ports:
       - "1302:3000"
-    command: npm start
     volumes:
-      - '.././bonekify-rest-app:/app'
+      - '.././bonekify-rest-service:/app'
       - /app/node_modules 
     depends_on:
       - db-rest
@@ -71,6 +67,8 @@ services:
     restart: always
     ports:
       - "1402:3306"
+    # volumes:
+    #   - .././bonekify-soap-service/dump/dump.sql:/docker-entrypoint-initdb.d/dump.sql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: soap_database
@@ -94,6 +92,8 @@ services:
     restart: always
     ports:
       - "1404:3306"
+    # volumes:
+    #   - .././bonekify-rest-service/dump/dump.sql:/docker-entrypoint-initdb.d/dump.sql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: rest_database
