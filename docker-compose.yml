@@ -36,8 +36,18 @@ services:
       - /app/node_modules 
     depends_on:
       - db-rest
-  # bonekify-soap-service:
-  #   bla bla
+  bonekify-soap-service:
+    tty: true
+    container_name: bonekify-soap-service
+    image: bonekify-soap-service-image:latest
+    restart: always
+    build: .././bonekify-soap-service
+    command: bash -c "mvn compile assembly:single && java -jar target/soap-1.0-SNAPSHOT-jar-with-dependencies.jar"
+    ports:
+      - "1401:1401"
+    volumes:
+      - '.././bonekify-soap-service/soap:/soap'
+      - /soap/target
 
   db-plain:
     container_name: db-plain
@@ -95,8 +105,8 @@ services:
     restart: always
     ports:
       - "1504:3306"
-    # volumes:
-    #   - .././bonekify-soap-service/dump/dump.sql:/docker-entrypoint-initdb.d/dump.sql
+    volumes:
+      - .././bonekify-soap-service/dump/dump.sql:/docker-entrypoint-initdb.d/dump.sql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: soap_database
