@@ -1,4 +1,4 @@
-# BONEKIFY CONFIG - Tugas Besar 2 IF3110
+# BONEKIFY CONFIG - IF3110 Web based Application Development: Major Assignment 2
 
 This config is used to handle the Docker compose for each repository
 
